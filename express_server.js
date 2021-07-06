@@ -71,6 +71,15 @@ app.post('/urls/:shortURL/delete', (req,res) => {
   res.redirect("/urls");
 
 });
+// Updating the long URL
+app.post('/urls/:shortURL', (req,res) => {
+  const shortURL = req.params.shortURL;
+  const longURL = req.body.longURL;
+  console.log('POST /urls/:shortURL',shortURL);
+  console.log("LongURL",longURL);
+  urlDatabase[shortURL] = longURL; 
+  res.redirect("/urls");
+})
 
 // endpoint "/u/:shortURL" will redirect to its longURL
 
