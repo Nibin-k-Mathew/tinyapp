@@ -48,22 +48,46 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // Log the POST request body to the console
+  console.log("message from post",req.body);  // Log the POST request body to the console
   // generate random string == short url
     const shortURL = generateRandomString(); 
+    const prefix = 'https://';
+    if(req.body.longURL.startsWith(prefix)){
+      urlDatabase[shortURL] = req.body.longURL
+    }
+    else {
+      urlDatabase[shortURL] = `${prefix}${req.body.longURL}`
+    }
   // add short and URl as the key value pairs as the database
-  urlDatabase[shortURL] = req.body.longURL
   // res.redirect /urls/+shorturl
   res.redirect(`/urls/${shortURL}`);
       
 });
 
-app.get("/u/:shortURL", (req, res) => {
+//Delete POST/urls/:id/delete
+app.post('/urls/:shortURL/delete', (req,res) => {
   const shortURL = req.params.shortURL;
-  const longURL = urlDatabase[shortURL];
-    res.redirect(longURL);
+  delete urlDatabase[shortURL];
+  res.redirect("/urls");
+
 });
 
+// endpoint "/u/:shortURL" will redirect to its longURL
+
+app.get("/u/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL;
+  console.log("Short",shortURL);
+  const longURL = urlDatabase[shortURL];
+  console.log("long",longURL);
+  if(longURL === undefined){
+    res.status(404)
+    res.send("ShortURL doesnot exist")
+  }
+  else {
+    res.redirect(longURL);
+  }
+    
+});
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
