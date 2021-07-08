@@ -88,7 +88,13 @@ app.get("/urls/new", (req, res) => {
   const templateVars = {
     user: req.cookies["user_ID"],
   };
-  res.render("urls_new", templateVars);
+  //Only Registered Users Can Shorten URLs
+  if(req.cookies['user_id']){
+    res.render("urls_new", templateVars);
+  }
+  else {
+    res.redirect("/login");
+  }
 });
 
 app.get("/urls/:shortURL", (req, res) => {
@@ -99,6 +105,12 @@ app.get("/urls/:shortURL", (req, res) => {
 app.post("/urls", (req, res) => {
   console.log("message from post", req.body);  // Log the POST request body to the console
   // generate random string == short url
+  if(req.cookies['user_id']){
+    res.render("urls_new", templateVars);
+  }
+  else {
+    res.send("Access not allowed");
+  }
   const shortURL = generateRandomString();
   const prefix = 'https://';
   if (req.body.longURL.startsWith(prefix)) {
