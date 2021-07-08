@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+</head>
+<body>
+  <%- include ('partials/_header') %>
+  <h1>Register below</h1>
+  <h2> Been in here before? <a href="/login">login instead!</a></h2>
+  <form method="POST" action="/register">
+    <label>Email address:</label>
+    <input name ="email" type="email" />
+    <br/>
+    <label>Password</label>
+    <input required name="password" type="=password"/>
+    <br/>
+    <button type="submit">Register!</button>
+    </form>
+  </form>
+</body>
+</html>
